@@ -15,9 +15,12 @@
       <article></article>
     </main>
     <script>
-      markdownEl.addEventListener('input', el => {
-        document.querySelector('main').replaceChild(ugfm(el.target.value), document.querySelector('article'))
-      })
+      function update() {
+        document.querySelector('main').replaceChild(ugfm(markdownEl.value), document.querySelector('article'))
+      }
+
+      markdownEl.addEventListener('input', update)
+      update()
     </script>
   </body>
 </html>
