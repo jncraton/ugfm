@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>ugfm</title>
@@ -11,13 +11,13 @@
 
   <body>
     <main>
-    <textarea id=markdownEl></textarea>
-    <article></article>
+      <textarea id="markdownEl"></textarea>
+      <article></article>
     </main>
     <script>
-    markdownEl.addEventListener('input', el => {
-      document.querySelector('main').replaceChild(ugfm(el.target.value), document.querySelector('article'))
-    })
-    </script>  
+      markdownEl.addEventListener('input', el => {
+        document.querySelector('main').replaceChild(ugfm(el.target.value), document.querySelector('article'))
+      })
+    </script>
   </body>
 </html>
