@@ -3,9 +3,20 @@ const ugfm = markdown => {
   const blocks = markdown.split(/\s\s+/)
 
   blocks.forEach(text => {
-    const p = document.createElement('p')
-    p.textContent = text
-    article.append(p)
+    // Replace heading delimiters
+    const cleanedText = text.replace(/^#+/, '')
+    const headingLevel = text.length - cleanedText.length
+
+    let el
+
+    if (headingLevel) {
+      el = document.createElement(`h${headingLevel}`)
+    } else {
+      el = document.createElement('p')
+    }
+
+    el.textContent = cleanedText
+    article.append(el)
   })
 
   return article
