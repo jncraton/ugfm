@@ -16,4 +16,4 @@ def test_page_title(root):
 
 def test_paragraph(root):
     root.locator("textarea").fill("Hello world")
-    expect(root.locator("article")).to_have_text("Hello world")
+    expect(root.locator("p")).to_have_text("Hello world")
