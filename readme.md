@@ -16,6 +16,6 @@ A tiny, safe markdown parser for the browser
 <article></article>
 
 <script>
-  document.querySelector('article').replaceChildren(...ugfm("# Heading 1"))
+  document.querySelector('article').replaceChildren(...ugfm('# Heading 1'))
 </script>
 ```
