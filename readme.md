@@ -7,3 +7,15 @@
 A tiny, safe markdown parser for the browser
 
 [Demo](https://jncraton.github.io/ugfm/)
+
+## Usage
+
+```html
+<script src="ugfm.js"></script>
+
+<article></article>
+
+<script>
+  document.querySelector('article').replaceChildren(...ugfm("# Heading 1"))
+</script>
+```
