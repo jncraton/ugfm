@@ -11,11 +11,21 @@ const ugfm = markdown => {
 
     if (headingLevel) {
       el = document.createElement(`h${headingLevel}`)
+      el.textContent = cleanedText
+    } else if (text[0] == '-') {
+      el = document.createElement('ul')
+      text.split(/^\- /gm).forEach(item => {
+        if (item.trim()) {
+          const li = document.createElement('li')
+          li.textContent = item
+          el.append(li)
+        }
+      })
     } else {
       el = document.createElement('p')
+      el.textContent = text
     }
 
-    el.textContent = cleanedText
     article.append(el)
   })
 

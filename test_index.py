@@ -31,6 +31,12 @@ def test_h2(root):
     root.locator("textarea").fill("## heading")
     expect(root.locator("h2")).to_have_text("heading")
 
+def test_ul(root):
+    root.locator("textarea").fill("- a\n- b\n- c")
+    expect(root.locator("ul")).to_contain_text("a")
+    expect(root.locator("li").first).to_have_text("a")
+    expect(root.locator("li").last).to_have_text("c")
+
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
     expect(root.locator("p").first).to_have_text("p1")
