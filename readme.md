@@ -5,3 +5,5 @@
 [![Lint](https://github.com/jncraton/ugfm/actions/workflows/lint.yml/badge.svg)](https://github.com/jncraton/ugfm/actions/workflows/lint.yml)
 
 A tiny, safe markdown parser for the browser
+
+[Demo](https://jncraton.github.io/ugfm/)
