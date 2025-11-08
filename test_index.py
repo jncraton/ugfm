@@ -45,6 +45,10 @@ def test_strong(root):
     root.locator("textarea").fill("**strong**")
     expect(root.locator("strong")).to_contain_text("strong")
 
+def test_em(root):
+    root.locator("textarea").fill("__em__")
+    expect(root.locator("em")).to_contain_text("em")
+
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
     expect(root.locator("p").first).to_have_text("p1")
