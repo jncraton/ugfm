@@ -13,7 +13,6 @@ const ugfm = markdown => {
     const cleanedText = text.replace(/^#+/, '')
     const headingLevel = text.length - cleanedText.length
 
-
     if (headingLevel) {
       article.append(el(`h${headingLevel}`, cleanedText))
     } else if (text[0] == '-') {
