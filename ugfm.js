@@ -23,6 +23,8 @@ const ugfm = markdown => {
         }
       })
       article.append(ul)
+    } else if (text[0] == '>') {
+      article.append(el('blockquote', text.replace(/^> */gm, ' ')))
     } else {
       article.append(el('p', text))
     }
