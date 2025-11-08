@@ -22,3 +22,11 @@ def test_paragraphs(root):
     root.locator("textarea").fill("p1\n\np2")
     expect(root.locator("p").first).to_have_text("p1")
     expect(root.locator("p").last).to_have_text("p2")
+
+def test_h1(root):
+    root.locator("textarea").fill("# heading")
+    expect(root.locator("h1")).to_have_text("heading")
+
+def test_h2(root):
+    root.locator("textarea").fill("## heading")
+    expect(root.locator("h2")).to_have_text("heading")
