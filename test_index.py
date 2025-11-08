@@ -49,6 +49,10 @@ def test_em(root):
     root.locator("textarea").fill("__em__")
     expect(root.locator("em")).to_contain_text("em")
 
+def test_a(root):
+    root.locator("textarea").fill("[example](example.com)")
+    expect(root.locator("article a")).to_contain_text("example")
+
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
     expect(root.locator("p").first).to_have_text("p1")
