@@ -12,7 +12,7 @@ def root(page: Page):
     return page
 
 def test_page_title(root):
-    expect(root).to_have_title("ugfm")
+    expect(root).to_have_title("µgfm")
 
 def test_paragraph(root):
     root.locator("textarea").fill("Hello world")
