@@ -33,7 +33,7 @@ const ugfm = markdown => {
   const el = (name, children = '', attrs = {}) => {
     const newElement = document.createElement(name)
     newElement.append(...(children?.big ? parseInline(children) : [children].flat()))
-    for (attr in attrs) {
+    for (const attr in attrs) {
       newElement.setAttribute(attr, attrs[attr])
     }
     return newElement
