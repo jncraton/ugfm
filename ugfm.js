@@ -1,13 +1,12 @@
 const ugfm = markdown => {
-  const parseInline = nodes => {
+  const parseInline = markdown => {
     /**
      * Parses a markdown string for inline formatting
      *
-     * @param nodes = Markdown text of the node
+     * @param markdown = Markdown text of the node
      * @returns Array of nodes
      */
-    nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
-    nodes = nodes.map(node => {
+    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/).map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
         return el('strong', strong[1])
@@ -29,8 +28,6 @@ const ugfm = markdown => {
 
       return node
     })
-
-    return nodes
   }
 
   const el = (name, children = '', attrs = {}) => {
