@@ -43,7 +43,7 @@ const ugfm = markdown => {
     if (headingLevel) {
       article.append(el(`h${headingLevel}`, cleanedText))
     } else if (text[0] == '-') {
-      ul = el('ul')
+      const ul = el('ul')
       text.split(/^\- /gm).forEach(item => {
         if (item.trim()) {
           ul.append(el('li', item))
