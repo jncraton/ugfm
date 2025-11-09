@@ -57,5 +57,5 @@ const ugfm = markdown => {
     }
   })
 
-  return article.childNodes
+  return article
 }

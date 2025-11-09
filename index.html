@@ -32,7 +32,7 @@ Paragraph 2
     </main>
     <script>
       function update() {
-        document.querySelector('article').replaceChildren(...ugfm(markdownEl.value))
+        document.querySelector('article').replaceChildren(...ugfm(markdownEl.value).childNodes)
       }
 
       markdownEl.addEventListener('input', update)

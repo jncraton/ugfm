@@ -13,10 +13,10 @@ A tiny, safe markdown parser for the browser
 ```html
 <script src="ugfm.js"></script>
 
-<article></article>
+<main></main>
 
 <script>
-  document.querySelector('article').replaceChildren(...ugfm('# Heading 1'))
+  document.querySelector('main').append(...ugfm('# Heading 1'))
 </script>
 ```
 
