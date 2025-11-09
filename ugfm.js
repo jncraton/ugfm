@@ -40,12 +40,9 @@ const ugfm = markdown => {
   const blocks = markdown.split(/\n\n+/)
 
   blocks.forEach(text => {
-    // Replace heading delimiters
-    const cleanedText = text.replace(/^#+/, '')
-    const headingLevel = text.length - cleanedText.length
-
+    const headingLevel = text.match(/^#*/)[0].length
     if (headingLevel) {
-      article.append(el(`h${headingLevel}`, cleanedText))
+      article.append(el(`h${headingLevel}`, text.slice(headingLevel)))
     } else if (text[0] == '-') {
       const ul = el('ul')
       text.split(/^\- /gm).forEach(item => {
