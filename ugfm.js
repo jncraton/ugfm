@@ -43,6 +43,8 @@ const ugfm = markdown => {
     const headingLevel = text.match(/^#*/)[0].length
     if (headingLevel) {
       article.append(el(`h${headingLevel}`, text.slice(headingLevel)))
+    } else if (text.match(/^[\-\*\_]{3,}$/)) {
+      article.append(el('hr'))
     } else if (text[0] == '-') {
       const ul = el('ul')
       text.split(/^\- /gm).forEach(item => {
