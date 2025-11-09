@@ -16,7 +16,7 @@ index.html: demo.html
 	sed -i '/autocomplete="off">/r readme.md' $@
 
 do.min.css:
-	wget https://jncraton.github.io/docss/do.min.css
+	wget https://github.com/jncraton/docss/releases/download/v0.2.0/do.min.css
 
 test: index.html
 	pytest --browser firefox --browser chromium
