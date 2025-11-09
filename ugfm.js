@@ -46,7 +46,7 @@ const ugfm = markdown => {
     } else if (text[0] == '-') {
       const ul = el('ul')
       text.split(/^\- /gm).forEach(item => {
-        if (item.trim()) {
+        if (item) {
           ul.append(el('li', item))
         }
       })
