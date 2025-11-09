@@ -37,7 +37,6 @@ Feature support is very limited at the moment. The following [GFM features](http
   - [ ] Tables (extension)
 - [ ] Container blocks
   - [ ] Block quotes
-  - [ ] Subitems
   - [x] List items
   - [ ] Task list items (extension)
   - [x] Lists
