@@ -47,7 +47,7 @@ Feature support is very limited at the moment. The following [GFM features](http
   - [x] Emphasis and strong emphasis
   - [ ] Strikethrough (extension)
   - [x] Links
-  - [ ] Images
+  - [x] Images
   - [ ] Autolinks
   - [ ] Autolinks (extension)
   - [ ] Raw HTML

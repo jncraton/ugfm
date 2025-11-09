@@ -1,7 +1,7 @@
 const ugfm = markdown => {
   const parseInline = markdown => {
     let nodes = markdown || ''
-    nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|\[.*?\]\(.*?\))/)
+    nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
     nodes = nodes.map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
@@ -13,11 +13,19 @@ const ugfm = markdown => {
         return el('em', em[1])
       }
 
-      const a = node.match(/\[(.*?)\]\((\S*)\)/)
+      const a = node.match(/!?\[(.*?)\]\((\S*)\)/)
+      console.log(a)
       if (a) {
-        const link = el('a', a[1])
-        link.setAttribute('href', a[2])
-        return link
+        if (a[0][0] == '!') {
+          const img = el('img')
+          img.setAttribute('alt', a[1])
+          img.setAttribute('src', a[2])
+          return img
+        } else {
+          const link = el('a', a[1])
+          link.setAttribute('href', a[2])
+          return link
+        }
       }
 
       return node
