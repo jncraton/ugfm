@@ -17,14 +17,9 @@ const ugfm = markdown => {
       console.log(a)
       if (a) {
         if (a[0][0] == '!') {
-          const img = el('img')
-          img.setAttribute('alt', a[1])
-          img.setAttribute('src', a[2])
-          return img
+          return el('img', '', ['alt', a[1]], ['src', a[2]])
         } else {
-          const link = el('a', a[1])
-          link.setAttribute('href', a[2])
-          return link
+          return el('a', a[1], ['href', a[2]])
         }
       }
 
@@ -34,9 +29,10 @@ const ugfm = markdown => {
     return nodes
   }
 
-  const el = (name, text) => {
+  const el = (name, text, ...attrs) => {
     const newElement = document.createElement(name)
     newElement.append(...parseInline(text))
+    attrs.forEach(attr => newElement.setAttribute(attr[0], attr[1]))
     return newElement
   }
 
