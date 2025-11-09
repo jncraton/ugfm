@@ -36,7 +36,7 @@ const ugfm = markdown => {
   }
 
   const article = el('article')
-  const blocks = markdown.split(/\n\n+/)
+  const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
   blocks.forEach(text => {
     const headingLevel = text.match(/^#*/)[0].length
@@ -44,6 +44,10 @@ const ugfm = markdown => {
       article.append(el(`h${headingLevel}`, text.slice(headingLevel)))
     } else if (text.match(/^[\-\*\_]{3,}$/)) {
       article.append(el('hr'))
+    } else if (text.match(/^ {4,}/)) {
+      const pre = el('pre')
+      pre.append(el('code', text))
+      article.append(pre)
     } else if (text[0] == '-') {
       const ul = el('ul')
       text.split(/^\- /gm).forEach(item => {

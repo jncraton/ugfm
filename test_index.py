@@ -61,6 +61,10 @@ def test_hr(root):
     root.locator("textarea").fill("p1\n\n---\n\np2")
     expect(root.locator("article hr")).to_be_visible()
 
+def test_indent_code(root):
+    root.locator("textarea").fill("p1\n\n    1\n\n    2\n\np2")
+    expect(root.locator("article code")).to_contain_text("1 2")
+
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
     expect(root.locator("p").first).to_have_text("p1")
