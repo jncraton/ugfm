@@ -44,6 +44,8 @@ const ugfm = markdown => {
   markdown = markdown.replace(/```\S*(.*?)```/gms, (_, code) => code.replace(/\n/g, '\n    ').trimEnd())
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
+  const rowBuilder = (row, name) => row.split('|').map(cell => (cell ? el(name, cell) : ''))
+
   article.append(
     ...blocks.map(text => {
       const headingLevel = text.match(/^#*/)[0].length
@@ -65,27 +67,13 @@ const ugfm = markdown => {
         return el('blockquote', text.replace(/^> */gm, ' '))
       } else if (text[0] == '|') {
         return el('table', [
-          el(
-            'thead',
-            el(
-              'tr',
-              text
-                .split('\n')[0]
-                .split('|')
-                .map(th => (th ? el('th', th) : '')),
-            ),
-          ),
+          el('thead', el('tr', rowBuilder(text.split('\n')[0], 'th'))),
           el(
             'tbody',
             text
               .split('\n')
               .slice(2)
-              .map(row =>
-                el(
-                  'tr',
-                  row.split('|').map(td => (td ? el('td', td) : '')),
-                ),
-              ),
+              .map(row => el('tr', rowBuilder(row, 'th'))),
           ),
         ])
       } else {
