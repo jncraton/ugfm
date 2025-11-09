@@ -1,0 +1,10 @@
+{
+  "esversion": 6,
+  "broswer": true,
+  "asi": true,
+  "undef": true,
+  "unused": true,
+  "exported": {
+    "ugfm": true
+  }
+}
