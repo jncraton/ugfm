@@ -1,5 +1,6 @@
 const ugfm = markdown => {
   const parseInline = markdown => {
+    if (markdown?.map) return markdown
     if (markdown?.tagName) return [markdown]
     let nodes = markdown || ''
     nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
@@ -53,13 +54,13 @@ const ugfm = markdown => {
       } else if (text.match(/^ {4,}/)) {
         return el('pre', el('code', text))
       } else if (text[0] == '-') {
-        const ul = el('ul')
-        text.split(/^\- /gm).forEach(item => {
-          if (item) {
-            ul.append(el('li', item))
-          }
-        })
-        return ul
+        return el(
+          'ul',
+          text
+            .slice(1)
+            .split(/^\- /gm)
+            .map(item => el('li', item)),
+        )
       } else if (text[0] == '>') {
         return el('blockquote', text.replace(/^> */gm, ' '))
       } else {

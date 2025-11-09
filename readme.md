@@ -8,7 +8,7 @@ A tiny, safe markdown parser for the browser
 
 [Demo](https://jncraton.github.io/ugfm/)
 
-[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (946 bytes)
+[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (906 bytes)
 
 ## Usage
 
