@@ -16,9 +16,9 @@ const ugfm = markdown => {
       const a = node.match(/!?\[(.*?)\]\((\S*)\)/)
       if (a) {
         if (a[0][0] == '!') {
-          return el('img', '', ['alt', a[1]], ['src', a[2]])
+          return el('img', '', { alt: a[1], src: a[2] })
         } else {
-          return el('a', a[1], ['href', a[2]])
+          return el('a', a[1], { href: a[2] })
         }
       }
 
@@ -28,10 +28,12 @@ const ugfm = markdown => {
     return nodes
   }
 
-  const el = (name, text, ...attrs) => {
+  const el = (name, text, attrs = {}) => {
     const newElement = document.createElement(name)
     newElement.append(...parseInline(text))
-    attrs.forEach(attr => newElement.setAttribute(attr[0], attr[1]))
+    for (attr in attrs) {
+      newElement.setAttribute(attr, attrs[attr])
+    }
     return newElement
   }
 
