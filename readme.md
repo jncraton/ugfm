@@ -38,30 +38,32 @@ Feature support is very limited at the moment. The following [GFM features](http
 - Indented code blocks
 - Fenced code blocks
 - Paragraphs
+- Textual content
 - Blank lines
-- Tables (extension)
 - Block quotes
 - Single-level unordered lists
 - Emphasis and strong emphasis
 - Links
 - Images
 - Soft line breaks
+- Disallowed Raw HTML (extension) (all Raw HTML is disallowed)
+- Tables (extension)
+
+### Intentionally Unimplemented Features
+
+
+- Raw HTML
+- HTML blocks
 
 ### Incomplete Features
 
 - Setext headings
-- HTML blocks
 - Link reference definitions
-- Container blocks
 - Task list items (extension)
-- Inlines
 - Backslash escapes
 - Entity and numeric character references
 - Code spans
 - Strikethrough (extension)
 - Autolinks
 - Autolinks (extension)
-- Raw HTML
-- Disallowed Raw HTML (extension)
 - Hard line breaks
-- Textual content
