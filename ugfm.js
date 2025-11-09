@@ -64,9 +64,9 @@ const ugfm = markdown => {
       } else if (text[0] == '>') {
         return el('blockquote', text.replace(/^> */gm, ' '))
       } else if (text[0] == '|') {
-        return el(
-          'table',
-          [
+        return el('table', [
+          el(
+            'thead',
             el(
               'tr',
               text
@@ -74,6 +74,9 @@ const ugfm = markdown => {
                 .split('|')
                 .map(th => (th ? el('th', th) : '')),
             ),
+          ),
+          el(
+            'tbody',
             text
               .split('\n')
               .slice(2)
@@ -83,8 +86,8 @@ const ugfm = markdown => {
                   row.split('|').map(td => (td ? el('td', td) : '')),
                 ),
               ),
-          ].flat(),
-        )
+          ),
+        ])
       } else {
         return el('p', text)
       }
