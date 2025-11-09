@@ -13,7 +13,7 @@ const ugfm = markdown => {
         return el('em', em[1])
       }
 
-      const a = node.match(/\[(.*?)\]\((.*?)\)/)
+      const a = node.match(/\[(.*?)\]\((\S*)\)/)
       if (a) {
         const link = el('a', a[1])
         link.setAttribute('href', a[2])
