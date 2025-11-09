@@ -31,34 +31,37 @@ This packages will never produce unsafe HTML. `createElement` is used to build e
 
 Feature support is very limited at the moment. The following [GFM features](https://github.github.com/gfm/) are available:
 
-- [ ] Leaf Blocks
-  - [x] Thematic breaks
-  - [x] ATX headings
-  - [ ] Setext headings
-  - [x] Indented code blocks
-  - [x] Fenced code blocks
-  - [ ] HTML blocks
-  - [ ] Link reference definitions
-  - [x] Paragraphs
-  - [x] Blank lines
-  - [x] Tables (extension)
-- [ ] Container blocks
-  - [x] Block quotes
-  - [x] List items
-  - [ ] Task list items (extension)
-  - [x] Lists
-- [ ] Inlines
-  - [ ] Backslash escapes
-  - [ ] Entity and numeric character references
-  - [ ] Code spans
-  - [x] Emphasis and strong emphasis
-  - [ ] Strikethrough (extension)
-  - [x] Links
-  - [x] Images
-  - [ ] Autolinks
-  - [ ] Autolinks (extension)
-  - [ ] Raw HTML
-  - [ ] Disallowed Raw HTML (extension)
-  - [ ] Hard line breaks
-  - [x] Soft line breaks
-  - [ ] Textual content
+### Completed Features
+
+- Thematic breaks (`<hr>`)
+- ATX headings
+- Indented code blocks
+- Fenced code blocks
+- Paragraphs
+- Blank lines
+- Tables (extension)
+- Block quotes
+- Single-level unordered lists
+- Emphasis and strong emphasis
+- Links
+- Images
+- Soft line breaks
+
+### Incomplete Features
+
+- Setext headings
+- HTML blocks
+- Link reference definitions
+- Container blocks
+- Task list items (extension)
+- Inlines
+- Backslash escapes
+- Entity and numeric character references
+- Code spans
+- Strikethrough (extension)
+- Autolinks
+- Autolinks (extension)
+- Raw HTML
+- Disallowed Raw HTML (extension)
+- Hard line breaks
+- Textual content
