@@ -14,7 +14,6 @@ const ugfm = markdown => {
       }
 
       const a = node.match(/!?\[(.*?)\]\((\S*)\)/)
-      console.log(a)
       if (a) {
         if (a[0][0] == '!') {
           return el('img', '', ['alt', a[1]], ['src', a[2]])
