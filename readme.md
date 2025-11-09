@@ -22,6 +22,8 @@ A tiny, safe markdown parser for the browser
 
 ## Features
 
+Feature support is very limited at the moment. The following [GFM features](https://github.github.com/gfm/) are available:
+
 - [ ] Leaf Blocks
   - [ ] Thematic breaks
   - [x] ATX headings
