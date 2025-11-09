@@ -44,11 +44,12 @@ const ugfm = markdown => {
   markdown = markdown.replace(/```\S*(.*?)```/gms, (_, code) => code.replace(/\n/g, '\n    ').trimEnd())
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
-  const rowBuilder = (row, name) =>
-    el(
+  const rowBuilder = (row, name) => {
+    return el(
       'tr',
       row.split('|').map(cell => (cell ? el(name, cell) : '')),
     )
+  }
 
   article.append(
     ...blocks.map(text => {
