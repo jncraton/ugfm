@@ -1,10 +1,13 @@
-all: do.min.css
+all: do.min.css ugfm.min.js
 
 lint:
 	npx prettier@3.6.2 --check .
 	
 format:
 	npx prettier@3.6.2 --write .
+
+ugfm.min.js: ugfm.js
+	npx uglify-js@3.19.3 --compress --mangle -- $< > $@
 
 do.min.css:
 	wget https://jncraton.github.io/docss/do.min.css
@@ -19,4 +22,4 @@ dev-deps:
 	pip3 install pytest-playwright==0.7.1 && playwright install
 
 clean:
-	rm -rf .pytest_cache __pycache__ favicon* do.min.css
+	rm -rf .pytest_cache __pycache__ favicon* do.min.css ugfm.min.js
