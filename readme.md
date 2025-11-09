@@ -23,6 +23,10 @@ A tiny, safe markdown parser for the browser
 </script>
 ```
 
+## Safety
+
+This packages will never produce unsafe HTML. `createElement` is used to build elements in the DOM, `innerHTML` is never used, and any raw HTML provided by the user will simply appear as text.
+
 ## Features
 
 Feature support is very limited at the moment. The following [GFM features](https://github.github.com/gfm/) are available:
