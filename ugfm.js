@@ -36,6 +36,8 @@ const ugfm = markdown => {
   }
 
   const article = el('article')
+
+  markdown = markdown.replace(/```\S*(.*?)```/gms, (_, code) => code.replaceAll('\n', '\n    ').trimEnd())
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
   blocks.forEach(text => {

@@ -8,7 +8,7 @@ A tiny, safe markdown parser for the browser
 
 [Demo](https://jncraton.github.io/ugfm/)
 
-[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (891 bytes)
+[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (968 bytes)
 
 ## Usage
 
@@ -31,7 +31,7 @@ Feature support is very limited at the moment. The following [GFM features](http
   - [x] ATX headings
   - [ ] Setext headings
   - [x] Indented code blocks
-  - [ ] Fenced code blocks
+  - [x] Fenced code blocks
   - [ ] HTML blocks
   - [ ] Link reference definitions
   - [x] Paragraphs
