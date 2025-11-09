@@ -9,6 +9,7 @@ format:
 
 ugfm.min.js: ugfm.js
 	npx uglify-js@3.19.3 --compress --mangle -- $< > $@
+	wc -c $@
 
 do.min.css:
 	wget https://jncraton.github.io/docss/do.min.css
