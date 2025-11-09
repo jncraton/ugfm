@@ -1,7 +1,7 @@
 const ugfm = markdown => {
   const parseInline = nodes => {
     if (nodes?.map) return nodes
-    if (!nodes?.at) return [nodes || '']
+    if (!nodes?.at) return [nodes]
     nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
     nodes = nodes.map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
@@ -29,7 +29,7 @@ const ugfm = markdown => {
     return nodes
   }
 
-  const el = (name, child, attrs = {}) => {
+  const el = (name, child = '', attrs = {}) => {
     const newElement = document.createElement(name)
     newElement.append(...parseInline(child))
     for (attr in attrs) {
