@@ -1,5 +1,11 @@
 const ugfm = markdown => {
   const parseInline = nodes => {
+    /**
+     * Parses a markdown string for inline formatting
+     *
+     * @param nodes = Markdown text of the node
+     * @returns Array of nodes
+     */
     nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
     nodes = nodes.map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
