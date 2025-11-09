@@ -6,7 +6,7 @@ const ugfm = markdown => {
      * @param markdown = Markdown text of the node
      * @returns Array of nodes
      */
-    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*\))/).map(node => {
+    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(\S*\))/).map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
         return el('strong', strong[1])
