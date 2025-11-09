@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build Site
+        run: make ugfm.min.js
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+            files: |
+              ugfm.js
+              ugfm.min.js
