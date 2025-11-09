@@ -70,14 +70,12 @@ const ugfm = markdown => {
       } else if (text[0] == '>') {
         return el('blockquote', text.replace(/^> */gm, ' '))
       } else if (text[0] == '|') {
+        const rows = text.split('\n')
         return el('table', [
-          el('thead', rowBuilder(text.split('\n')[0], 'th')),
+          el('thead', rowBuilder(rows[0], 'th')),
           el(
             'tbody',
-            text
-              .split('\n')
-              .slice(2)
-              .map(row => rowBuilder(row, 'td')),
+            rows.slice(2).map(row => rowBuilder(row, 'td')),
           ),
         ])
       } else {
