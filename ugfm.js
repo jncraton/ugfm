@@ -1,8 +1,7 @@
 const ugfm = markdown => {
-  const parseInline = markdown => {
-    if (markdown?.map) return markdown
-    if (markdown?.tagName) return [markdown]
-    let nodes = markdown || ''
+  const parseInline = nodes => {
+    if (nodes?.map) return nodes
+    if (!nodes?.at) return [nodes || '']
     nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
     nodes = nodes.map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
