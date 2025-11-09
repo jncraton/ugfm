@@ -38,7 +38,7 @@ Feature support is very limited at the moment. The following [GFM features](http
   - [x] Blank lines
   - [ ] Tables (extension)
 - [ ] Container blocks
-  - [ ] Block quotes
+  - [x] Block quotes
   - [x] List items
   - [ ] Task list items (extension)
   - [x] Lists
