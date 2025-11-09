@@ -73,6 +73,9 @@ def test_table(root):
     root.locator("textarea").fill("p1\n\n| h1 | h2 |\n|----|----|\n| a1 | a2 |\n| b1 | b2 |\n\np2")
     expect(root.locator("article tr").first).to_have_text("h1 h2")
     expect(root.locator("article tr").last).to_have_text("b1 b2")
+    expect(root.locator("article thead tr")).to_have_text("h1 h2")
+    expect(root.locator("article tbody tr").first).to_have_text("a1 a2")
+    expect(root.locator("article tbody tr").last).to_have_text("b1 b2")
 
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
