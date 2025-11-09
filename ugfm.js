@@ -1,5 +1,6 @@
 const ugfm = markdown => {
   const parseInline = markdown => {
+    if (markdown?.tagName) return [markdown]
     let nodes = markdown || ''
     nodes = nodes.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/)
     nodes = nodes.map(node => {
@@ -28,9 +29,9 @@ const ugfm = markdown => {
     return nodes
   }
 
-  const el = (name, text, attrs = {}) => {
+  const el = (name, child, attrs = {}) => {
     const newElement = document.createElement(name)
-    newElement.append(...parseInline(text))
+    newElement.append(...parseInline(child))
     for (attr in attrs) {
       newElement.setAttribute(attr, attrs[attr])
     }
@@ -42,30 +43,30 @@ const ugfm = markdown => {
   markdown = markdown.replace(/```\S*(.*?)```/gms, (_, code) => code.replaceAll('\n', '\n    ').trimEnd())
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
-  blocks.forEach(text => {
-    const headingLevel = text.match(/^#*/)[0].length
-    if (headingLevel) {
-      article.append(el(`h${headingLevel}`, text.slice(headingLevel)))
-    } else if (text.match(/^[\-\*\_]{3,}$/)) {
-      article.append(el('hr'))
-    } else if (text.match(/^ {4,}/)) {
-      const pre = el('pre')
-      pre.append(el('code', text))
-      article.append(pre)
-    } else if (text[0] == '-') {
-      const ul = el('ul')
-      text.split(/^\- /gm).forEach(item => {
-        if (item) {
-          ul.append(el('li', item))
-        }
-      })
-      article.append(ul)
-    } else if (text[0] == '>') {
-      article.append(el('blockquote', text.replace(/^> */gm, ' ')))
-    } else {
-      article.append(el('p', text))
-    }
-  })
+  article.append(
+    ...blocks.map(text => {
+      const headingLevel = text.match(/^#*/)[0].length
+      if (headingLevel) {
+        return el(`h${headingLevel}`, text.slice(headingLevel))
+      } else if (text.match(/^[\-\*\_]{3,}$/)) {
+        return el('hr')
+      } else if (text.match(/^ {4,}/)) {
+        return el('pre', el('code', text))
+      } else if (text[0] == '-') {
+        const ul = el('ul')
+        text.split(/^\- /gm).forEach(item => {
+          if (item) {
+            ul.append(el('li', item))
+          }
+        })
+        return ul
+      } else if (text[0] == '>') {
+        return el('blockquote', text.replace(/^> */gm, ' '))
+      } else {
+        return el('p', text)
+      }
+    }),
+  )
 
   return article
 }
