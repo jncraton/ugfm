@@ -1,4 +1,4 @@
-all: do.min.css ugfm.min.js
+all: do.min.css ugfm.min.js favicon.ico
 
 lint:
 	npx prettier@3.6.2 --check .
