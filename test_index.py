@@ -57,6 +57,11 @@ def test_img(root):
     root.locator("textarea").fill("![alt](example.com)")
     expect(root.get_by_alt_text("alt")).to_have_attribute("src", "example.com")
 
+def test_img_a(root):
+    root.locator("textarea").fill("[![alt](img.com)](link.com)")
+    expect(root.get_by_alt_text("alt")).to_have_attribute("src", "img.com")
+    expect(root.locator("article a")).to_have_attribute("href", "link.com")
+
 def test_hr(root):
     root.locator("textarea").fill("p1\n\n---\n\np2")
     expect(root.locator("article hr")).to_be_visible()

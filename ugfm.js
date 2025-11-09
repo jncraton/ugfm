@@ -6,7 +6,7 @@ const ugfm = markdown => {
      * @param markdown = Markdown text of the node
      * @returns Array of nodes
      */
-    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*?\))/).map(node => {
+    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(.*\))/).map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
         return el('strong', strong[1])
@@ -17,7 +17,7 @@ const ugfm = markdown => {
         return el('em', em[1])
       }
 
-      const a = node.match(/!?\[(.*?)\]\((\S*)\)/)
+      const a = node.match(/!?\[(.*)\]\((\S*)\)/)
       if (a) {
         if (a[0][0] == '!') {
           return el('img', '', { alt: a[1], src: a[2] })
