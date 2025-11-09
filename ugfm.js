@@ -66,12 +66,24 @@ const ugfm = markdown => {
       } else if (text[0] == '|') {
         return el(
           'table',
-          text.split('\n').map(row =>
+          [
             el(
               'tr',
-              row.split('|').map(td => (td ? el('td', td) : '')),
+              text
+                .split('\n')[0]
+                .split('|')
+                .map(th => (th ? el('th', th) : '')),
             ),
-          ),
+            text
+              .split('\n')
+              .slice(2)
+              .map(row =>
+                el(
+                  'tr',
+                  row.split('|').map(td => (td ? el('td', td) : '')),
+                ),
+              ),
+          ].flat(),
         )
       } else {
         return el('p', text)

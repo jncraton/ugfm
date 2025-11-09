@@ -9,7 +9,7 @@ A tiny, safe markdown parser for the browser
 
 [Demo](https://jncraton.github.io/ugfm/)
 
-[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (848 bytes)
+[ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) (1012 bytes)
 
 ## Usage
 
@@ -37,7 +37,7 @@ Feature support is very limited at the moment. The following [GFM features](http
   - [ ] Link reference definitions
   - [x] Paragraphs
   - [x] Blank lines
-  - [ ] Tables (extension)
+  - [x] Tables (extension)
 - [ ] Container blocks
   - [x] Block quotes
   - [x] List items
