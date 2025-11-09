@@ -51,7 +51,6 @@ Feature support is very limited at the moment. The following [GFM features](http
 
 ### Intentionally Unimplemented Features
 
-
 - Raw HTML
 - HTML blocks
 
