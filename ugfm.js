@@ -59,7 +59,7 @@ const ugfm = markdown => {
   const rowBuilder = (row, name) => {
     return el(
       'tr',
-      row.split('|').map(cell => (cell ? el(name, cell) : '')),
+      row.split('|').map(cell => cell && el(name, cell)),
     )
   }
 
