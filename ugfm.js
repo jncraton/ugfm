@@ -54,19 +54,17 @@ const ugfm = markdown => {
   article.append(
     ...blocks.map(text => {
       const headingLevel = text.match(/^#*/)[0].length
+      const listItems = text.split(/^\- |^\d+\./gm)
       if (headingLevel) {
         return el(`h${headingLevel}`, text.slice(headingLevel))
       } else if (text.match(/^[\-\*\_]{3,}$/)) {
         return el('hr')
       } else if (text.match(/^ {4,}/)) {
         return el('pre', el('code', text))
-      } else if ((m = text.match(/^- |^\d+\./))) {
+      } else if (listItems.length > 1) {
         return el(
           text[0] == '-' ? 'ul' : 'ol',
-          text
-            .slice(m[0].length)
-            .split(/^\- |^\d+\./gm)
-            .map(item => el('li', item)),
+          listItems.slice(1).map(item => el('li', item)),
         )
       } else if (text[0] == '>') {
         return el('blockquote', text.replace(/^> */gm, ' '))
