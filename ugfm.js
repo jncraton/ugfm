@@ -51,7 +51,9 @@ const ugfm = markdown => {
 
   const article = el('article')
 
-  markdown = markdown.replace(/```\S*(.*?)```/gms, (_, code) => code.replace(/\n/g, '\n    ').trimEnd())
+  // Convert fenced code blocks to indented code blocks
+  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => code.replace(/\n/g, '\n    '))
+
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
   const rowBuilder = (row, name) => {
