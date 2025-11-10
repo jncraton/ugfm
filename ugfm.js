@@ -60,12 +60,12 @@ const ugfm = markdown => {
         return el('hr')
       } else if (text.match(/^ {4,}/)) {
         return el('pre', el('code', text))
-      } else if (text[0] == '-') {
+      } else if ((m = text.match(/^- |^\d+\./))) {
         return el(
-          'ul',
+          text[0] == '-' ? 'ul' : 'ol',
           text
-            .slice(1)
-            .split(/^\- /gm)
+            .slice(m[0].length)
+            .split(/^\- |^\d+\./gm)
             .map(item => el('li', item)),
         )
       } else if (text[0] == '>') {

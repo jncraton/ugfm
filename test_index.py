@@ -37,6 +37,12 @@ def test_ul(root):
     expect(root.locator("li").first).to_have_text("a")
     expect(root.locator("li").last).to_have_text("c")
 
+def test_ol(root):
+    root.locator("textarea").fill("1. a\n2. b\n3. c")
+    expect(root.locator("ol")).to_contain_text("a b c")
+    expect(root.locator("li").first).to_have_text("a")
+    expect(root.locator("li").last).to_have_text("c")
+
 def test_blockquote(root):
     root.locator("textarea").fill("p\n\n> a\nb\n> c")
     expect(root.locator("blockquote")).to_contain_text("a b c")
