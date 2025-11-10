@@ -31,6 +31,16 @@ const ugfm = markdown => {
   }
 
   const el = (name, children = '', attrs = {}) => {
+    /**
+     * Builds a DOM element
+     *
+     * @param name - Name of the element, e.g. 'h3'
+     * @param children - Children of the element. Can be a markdown string,
+     * node, or list of nodes. If markdown, text will be processed for inline
+     * styles
+     * @param attrs - An object representing attributes for the node
+     * @returns Array of nodes
+     */
     const newElement = document.createElement(name)
     newElement.append(...(children?.big ? parseInline(children) : [children].flat()))
     for (const attr in attrs) {
