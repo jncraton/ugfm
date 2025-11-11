@@ -66,7 +66,7 @@ const ugfm = markdown => {
   article.append(
     ...blocks.map(text => {
       const headingLevel = text.match(/^#*/)[0].length
-      const listItems = text.split(/^\- |^\d+\./gm).slice(1)
+      const listItems = text.split(/^[\-+*] |^\d+\./gm).slice(1)
       if (headingLevel) {
         return el(`h${headingLevel}`, text.slice(headingLevel))
       } else if (text.match(/^[\-\*\_]{3,}$/)) {
@@ -75,7 +75,7 @@ const ugfm = markdown => {
         return el('pre', el('code', text))
       } else if (listItems[0]) {
         return el(
-          text[0] == '-' ? 'ul' : 'ol',
+          text.match(/^[\-+*]/) ? 'ul' : 'ol',
           listItems.map(item => el('li', item)),
         )
       } else if (text[0] == '>') {
