@@ -1,12 +1,29 @@
 const ugfm = markdown => {
-  const parseInline = markdown => {
+  const el = (name, children = '', attrs = {}) => {
     /**
-     * Parses a markdown string for inline formatting
+     * Builds a DOM element
      *
-     * @param markdown = Markdown text of the node
-     * @returns Array of nodes
+     * @param name - Name of the element, e.g. 'h3'
+     * @param children - Children of the element. Can be text, node, or array of nodes
+     * @param attrs - An object representing attributes for the node
+     * @returns DOM element
      */
-    return markdown.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(\S*\))/).map(node => {
+    const newElement = document.createElement(name)
+    newElement.append(...[children].flat())
+    for (const attr in attrs) {
+      newElement.setAttribute(attr, attrs[attr])
+    }
+    return newElement
+  }
+
+  const parseInline = text => {
+    /**
+     * Phase 2: Parse inline content (links, images, emphasis, bold)
+     *
+     * @param text - Text content to parse for inline formatting
+     * @returns Array of DOM nodes and text nodes
+     */
+    return text.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(\S*\))/).map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
         return el('strong', strong[1])
@@ -30,70 +47,184 @@ const ugfm = markdown => {
     })
   }
 
-  const el = (name, children = '', attrs = {}) => {
+  const parseBlocks = lines => {
     /**
-     * Builds a DOM element
+     * Phase 1: Parse block structure
+     * Process lines to build a tree of block elements
      *
-     * @param name - Name of the element, e.g. 'h3'
-     * @param children - Children of the element. Can be a markdown string,
-     * node, or list of nodes. If markdown, text will be processed for inline
-     * styles
-     * @param attrs - An object representing attributes for the node
-     * @returns Array of nodes
+     * @param lines - Array of lines to parse
+     * @returns Array of DOM elements
      */
-    const newElement = document.createElement(name)
-    newElement.append(...(children?.big ? parseInline(children) : [children].flat()))
-    for (const attr in attrs) {
-      newElement.setAttribute(attr, attrs[attr])
-    }
-    return newElement
-  }
+    const blocks = []
+    let i = 0
 
-  const article = el('article')
+    while (i < lines.length) {
+      const line = lines[i]
 
-  // Convert fenced code blocks to indented code blocks
-  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => code.replace(/\n/g, '\n    '))
-
-  const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
-
-  const rowBuilder = (row, name) => {
-    return el(
-      'tr',
-      row.split('|').map(cell => cell && el(name, cell)),
-    )
-  }
-
-  article.append(
-    ...blocks.map(text => {
-      const headingLevel = text.match(/^#*/)[0].length
-      const listItems = text.split(/^[\-+*] |^\d+\./gm).slice(1)
-      if (headingLevel) {
-        return el(`h${headingLevel}`, text.slice(headingLevel))
-      } else if (text.match(/^[\-\*\_]{3,}$/)) {
-        return el('hr')
-      } else if (text.match(/^ {4,}/)) {
-        return el('pre', el('code', text))
-      } else if (listItems[0]) {
-        return el(
-          text.match(/^[\-+*]/) ? 'ul' : 'ol',
-          listItems.map(item => el('li', item)),
-        )
-      } else if (text[0] == '>') {
-        return el('blockquote', text.replace(/^> */gm, ' '))
-      } else if (text[0] == '|') {
-        const rows = text.split('\n')
-        return el('table', [
-          el('thead', rowBuilder(rows[0], 'th')),
-          el(
-            'tbody',
-            rows.slice(2).map(row => rowBuilder(row, 'td')),
-          ),
-        ])
-      } else {
-        return el('p', text)
+      // Skip blank lines
+      if (!line.trim()) {
+        i++
+        continue
       }
-    }),
-  )
+
+      // Thematic break
+      if (line.match(/^[\-\*\_]{3,}$/)) {
+        blocks.push(el('hr'))
+        i++
+        continue
+      }
+
+      // ATX heading
+      const headingMatch = line.match(/^(#{1,6}) (.*)/)
+      if (headingMatch) {
+        blocks.push(el(`h${headingMatch[1].length}`, parseInline(headingMatch[2])))
+        i++
+        continue
+      }
+
+      // Fenced code block
+      if (line.match(/^```/)) {
+        const codeLines = []
+        i++
+        while (i < lines.length && !lines[i].match(/^```/)) {
+          codeLines.push(lines[i])
+          i++
+        }
+        blocks.push(el('pre', el('code', codeLines.join('\n'))))
+        i++ // Skip closing fence
+        continue
+      }
+
+      // Indented code block
+      if (line.match(/^ {4}/)) {
+        const codeLines = []
+        while (i < lines.length) {
+          if (lines[i].match(/^ {4}/)) {
+            codeLines.push(lines[i])
+            i++
+          } else if (!lines[i].trim() && i + 1 < lines.length && lines[i + 1].match(/^ {4}/)) {
+            // Blank line followed by more indented code - include the blank line
+            codeLines.push('')
+            i++
+          } else {
+            break
+          }
+        }
+        blocks.push(el('pre', el('code', codeLines.join('\n'))))
+        continue
+      }
+
+      // Table
+      if (line.match(/^\|/)) {
+        const tableLines = []
+        while (i < lines.length && lines[i].match(/^\|/)) {
+          tableLines.push(lines[i])
+          i++
+        }
+        const rowBuilder = (row, name) =>
+          el(
+            'tr',
+            row.split('|').map(cell => cell && el(name, parseInline(cell))),
+          )
+        blocks.push(
+          el('table', [
+            el('thead', rowBuilder(tableLines[0], 'th')),
+            el(
+              'tbody',
+              tableLines.slice(2).map(row => rowBuilder(row, 'td')),
+            ),
+          ]),
+        )
+        continue
+      }
+
+      // Blockquote (container block)
+      if (line.match(/^>/)) {
+        const quoteLines = []
+        while (i < lines.length) {
+          if (lines[i].match(/^>/)) {
+            quoteLines.push(lines[i].replace(/^> ?/, ''))
+            i++
+          } else if (!lines[i].trim()) {
+            // Blank line - could be part of blockquote or end it
+            if (i + 1 < lines.length && (lines[i + 1].match(/^>/) || lines[i + 1].trim())) {
+              quoteLines.push('')
+              i++
+            } else {
+              break
+            }
+          } else if (
+            quoteLines.length > 0 &&
+            lines[i].trim() &&
+            !lines[i].match(/^(#{1,6} |[\-\*\_]{3,}$|```|^ {4}|\||[\-+*] |\d+\. )/)
+          ) {
+            // Lazy continuation - a non-blank line that isn't a block start
+            quoteLines.push(lines[i])
+            i++
+          } else {
+            break
+          }
+        }
+        // Recursively parse blockquote content
+        blocks.push(el('blockquote', parseBlocks(quoteLines)))
+        continue
+      }
+
+      // List (container block)
+      if (line.match(/^[\-+*] /) || line.match(/^\d+\. /)) {
+        const isOrdered = line.match(/^\d+\. /)
+        const listItems = []
+        const listType = isOrdered ? 'ol' : 'ul'
+
+        while (i < lines.length) {
+          const currentLine = lines[i]
+          // Check if this is a list item
+          const itemMatch = currentLine.match(/^([\-+*] |\d+\. )(.*)/)
+
+          if (!itemMatch) {
+            // Blank line or non-list content
+            if (!currentLine.trim()) {
+              // Check if next line continues the list
+              if (i + 1 < lines.length && (lines[i + 1].match(/^[\-+*] /) || lines[i + 1].match(/^\d+\. /))) {
+                i++
+                continue
+              }
+            }
+            break
+          }
+
+          // For simple single-line items, use inline parsing
+          // For multi-line or complex items, use block parsing
+          listItems.push(el('li', parseInline(itemMatch[2])))
+          i++
+        }
+
+        blocks.push(el(listType, listItems))
+        continue
+      }
+
+      // Paragraph - collect consecutive non-blank lines
+      const paraLines = []
+      while (
+        i < lines.length &&
+        lines[i].trim() &&
+        !lines[i].match(/^(#{1,6} |[\-\*\_]{3,}$|```|^ {4}|\||>|[\-+*] |\d+\. )/)
+      ) {
+        paraLines.push(lines[i])
+        i++
+      }
+      if (paraLines.length > 0) {
+        blocks.push(el('p', parseInline(paraLines.join(' '))))
+      }
+    }
+
+    return blocks
+  }
+
+  // Start two-phase parsing
+  const lines = markdown.split('\n')
+  const article = el('article')
+  article.append(...parseBlocks(lines))
 
   return article
 }
