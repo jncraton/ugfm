@@ -97,7 +97,7 @@ const ugfm = markdown => {
         break
       }
 
-      const itemContent = [parseInline(itemMatch[3])]
+      const itemContent = [...parseInline(itemMatch[3]), '\n']
       j++
 
       // Check for nested lists
