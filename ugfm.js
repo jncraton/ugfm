@@ -47,6 +47,80 @@ const ugfm = markdown => {
     })
   }
 
+  const parseList = (lines, startIndex, baseIndent) => {
+    /**
+     * Parse a list recursively, handling nested lists
+     *
+     * @param lines - Array of lines
+     * @param startIndex - Index to start parsing from
+     * @param baseIndent - Base indentation level for this list
+     * @returns Object with list element and next index
+     */
+    const isOrdered = lines[startIndex].match(/^\d+\. /)
+    const listType = isOrdered ? 'ol' : 'ul'
+    const items = []
+    let j = startIndex
+
+    while (j < lines.length) {
+      const currentLine = lines[j]
+
+      // Check indentation
+      const indent = currentLine.match(/^ */)[0].length
+
+      // If line is less indented than base, we're done with this list
+      if (currentLine.trim() && indent < baseIndent) {
+        break
+      }
+
+      // Check if this is a list item at the current level
+      const itemMatch = currentLine.match(/^( *)([\-+*] |\d+\. )(.*)/)
+
+      if (!itemMatch) {
+        // Blank line or non-list content
+        if (!currentLine.trim()) {
+          // Check if next line continues the list at this level
+          if (j + 1 < lines.length) {
+            const nextIndent = lines[j + 1].match(/^ */)[0].length
+            if (nextIndent >= baseIndent && lines[j + 1].match(/^ *([\-+*] |\d+\. )/)) {
+              j++
+              continue
+            }
+          }
+        }
+        break
+      }
+
+      const itemIndent = itemMatch[1].length
+
+      // If this item is at a different indent level, skip it (will be handled by recursion)
+      if (itemIndent !== baseIndent) {
+        break
+      }
+
+      const itemContent = [parseInline(itemMatch[3])]
+      j++
+
+      // Check for nested lists
+      while (j < lines.length) {
+        const nextLine = lines[j]
+        const nextIndent = nextLine.match(/^ */)[0].length
+
+        // If next line is more indented and is a list item, parse nested list
+        if (nextLine.trim() && nextIndent > baseIndent && nextLine.match(/^ *([\-+*] |\d+\. )/)) {
+          const nestedResult = parseList(lines, j, nextIndent)
+          itemContent.push(nestedResult.list)
+          j = nestedResult.nextIndex
+        } else {
+          break
+        }
+      }
+
+      items.push(el('li', itemContent))
+    }
+
+    return { list: el(listType, items), nextIndex: j }
+  }
+
   const parseBlocks = lines => {
     /**
      * Phase 1: Parse block structure
@@ -179,34 +253,9 @@ const ugfm = markdown => {
 
       // List (container block)
       if (line.match(/^[\-+*] /) || line.match(/^\d+\. /)) {
-        const isOrdered = line.match(/^\d+\. /)
-        const listItems = []
-        const listType = isOrdered ? 'ol' : 'ul'
-
-        while (i < lines.length) {
-          const currentLine = lines[i]
-          // Check if this is a list item
-          const itemMatch = currentLine.match(/^([\-+*] |\d+\. )(.*)/)
-
-          if (!itemMatch) {
-            // Blank line or non-list content
-            if (!currentLine.trim()) {
-              // Check if next line continues the list
-              if (i + 1 < lines.length && (lines[i + 1].match(/^[\-+*] /) || lines[i + 1].match(/^\d+\. /))) {
-                i++
-                continue
-              }
-            }
-            break
-          }
-
-          // For simple single-line items, use inline parsing
-          // For multi-line or complex items, use block parsing
-          listItems.push(el('li', parseInline(itemMatch[2])))
-          i++
-        }
-
-        blocks.push(el(listType, listItems))
+        const result = parseList(lines, i, 0)
+        blocks.push(result.list)
+        i = result.nextIndex
         continue
       }
 
