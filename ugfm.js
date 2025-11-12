@@ -57,6 +57,13 @@ const ugfm = markdown => {
   const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
   const rowBuilder = (row, name) => {
+    /**
+     * Builds a `tr` element
+     *
+     * @param row - Row of from markdown text such as: "| a | b |"
+     * @param name - Column element name (`th` or `td`)
+     * @returns `tr` element
+     */
     return el(
       'tr',
       row.split('|').map(cell => cell && el(name, cell)),
