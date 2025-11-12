@@ -122,6 +122,13 @@ const ugfm = markdown => {
           i++
         }
         const rowBuilder = (row, name) =>
+        /**
+         * Builds a `tr` element
+         *
+         * @param row - Row of from markdown text such as: "| a | b |"
+         * @param name - Column element name (`th` or `td`)
+         * @returns `tr` element
+         */
           el(
             'tr',
             row.split('|').map(cell => cell && el(name, parseInline(cell))),
