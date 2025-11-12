@@ -26,12 +26,12 @@ const ugfm = markdown => {
     return text.split(/(\*\*.*?\*\*|__.*?__|!?\[.*?\]\(\S*\))/).map(node => {
       const strong = node.match(/\*\*(.*?)\*\*/)
       if (strong) {
-        return el('strong', strong[1])
+        return el('strong', parseInline(strong[1]))
       }
 
       const em = node.match(/__(.*?)__/)
       if (em) {
-        return el('em', em[1])
+        return el('em', parseInline(em[1]))
       }
 
       const a = node.match(/!?\[(.*)\]\((\S*)\)/)
@@ -39,7 +39,7 @@ const ugfm = markdown => {
         if (a[0][0] == '!') {
           return el('img', '', { alt: a[1], src: a[2] })
         } else {
-          return el('a', a[1], { href: a[2] })
+          return el('a', parseInline(a[1]), { href: a[2] })
         }
       }
 
