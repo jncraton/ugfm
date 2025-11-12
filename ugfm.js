@@ -49,13 +49,6 @@ const ugfm = markdown => {
     return newElement
   }
 
-  const article = el('article')
-
-  // Convert fenced code blocks to indented code blocks
-  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => code.replace(/\n/g, '\n    '))
-
-  const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
-
   const rowBuilder = (row, name) => {
     /**
      * Builds a `tr` element
@@ -69,6 +62,13 @@ const ugfm = markdown => {
       row.split('|').map(cell => cell && el(name, cell)),
     )
   }
+
+  const article = el('article')
+
+  // Convert fenced code blocks to indented code blocks
+  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => code.replace(/\n/g, '\n    '))
+
+  const blocks = markdown.split(/(?<!    [^\n]*)\n\n+|\n\n+(?=\S)/)
 
   article.append(
     ...blocks.map(text => {
