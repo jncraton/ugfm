@@ -4,3 +4,5 @@ do.min.css
 ugfm.min.js
 favicon.ico
 index.html
+node_modules
+package-lock.json

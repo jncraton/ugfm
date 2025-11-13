@@ -49,6 +49,11 @@ def test_ul_star(root):
     expect(root.locator("li").first).to_have_text("a")
     expect(root.locator("li").last).to_have_text("c")
 
+def test_ul_nested(root):
+    root.locator("textarea").fill("\n* a\n* b\n  * c\n    * d\n  * e\n* f\n")
+    expect(root.locator("ul").first).to_contain_text("a b c d e f")
+    expect(root.locator("ul ul ul li")).to_have_text("d")
+
 def test_ol(root):
     root.locator("textarea").fill("1. a\n2. b\n3. c")
     expect(root.locator("ol")).to_contain_text("a b c")
