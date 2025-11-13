@@ -101,9 +101,11 @@ def test_table(root):
     expect(root.locator("article tbody tr").last).to_have_text("b1 b2")
 
 def test_escape(root):
-    root.locator("textarea").fill("*\\*not bold**")
+    root.locator("textarea").fill("*\\*not bold**\n\n- \$2 > \$1")
     expect(root.locator("article p")).to_have_text("**not bold**")
     expect(root.locator("article p")).not_to_have_text("\\")
+    expect(root.locator("article li")).to_have_text("$2 > $1")
+    expect(root.locator("article li")).not_to_have_text("\\")
 
 def test_document(root):
     root.locator("textarea").fill("# h1\n\np1\n\np2\n\n## h2\n\np3\n\np4")
