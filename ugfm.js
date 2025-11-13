@@ -26,7 +26,7 @@ const ugfm = markdown => {
         }
       }
 
-      return node
+      return node.replace(/\\/g, '')
     })
   }
 
