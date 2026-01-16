@@ -31,6 +31,10 @@ def test_h2(root):
     root.locator("textarea").fill("## heading")
     expect(root.locator("h2")).to_have_text("heading")
 
+def test_h2_single_newline(root):
+    root.locator("textarea").fill("## heading\npara")
+    expect(root.locator("h2")).to_have_text("heading")
+
 def test_ul(root):
     root.locator("textarea").fill("- a\n- b\n- c")
     expect(root.locator("ul")).to_contain_text("a")
