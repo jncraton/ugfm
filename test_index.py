@@ -96,6 +96,10 @@ def test_fence_code(root):
     root.locator("textarea").fill("p1\n\n```js\n1\n\n2\n```\n\np2")
     expect(root.locator("article code")).to_have_text("1 2")
 
+def test_fence_code_no_newline(root):
+    root.locator("textarea").fill("p1\n```js\n1\n\n2\n```\np2")
+    expect(root.locator("article code")).to_have_text("1 2")
+
 def test_table(root):
     root.locator("textarea").fill("p1\n\n| h1 | h2 |\n|----|----|\n| a1 | a2 |\n| b1 | b2 |\n\np2")
     expect(root.locator("article tr").first).to_have_text("h1 h2")
