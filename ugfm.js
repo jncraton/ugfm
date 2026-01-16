@@ -66,7 +66,7 @@ const ugfm = markdown => {
   const article = el('article')
 
   // Convert fenced code blocks to indented code blocks
-  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => code.replace(/\n/g, '\n    '))
+  markdown = markdown.replace(/```\S*(.*?)\n?```/gms, (_, code) => '\n' + code.replace(/\n/g, '\n    ') + '\n')
 
   // Ensure newline after headings
   markdown = markdown.replace(/^#.*$/gm, '$&\n')
