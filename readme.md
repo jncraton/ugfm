@@ -11,7 +11,7 @@ A tiny, safe markdown parser for the browser
 
 | Bundle                                                     | Size       |
 | ---------------------------------------------------------- | ---------- |
-| [ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) | 1095 bytes |
+| [ugfm.min.js](https://jncraton.github.io/ugfm/ugfm.min.js) | 1073 bytes |
 
 ## Usage
 

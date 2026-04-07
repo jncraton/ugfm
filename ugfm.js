@@ -41,11 +41,8 @@ const ugfm = markdown => {
      * @param attrs - An object representing attributes for the node
      * @returns Array of nodes
      */
-    const newElement = document.createElement(name)
+    const newElement = Object.assign(document.createElement(name), attrs)
     newElement.append(...(children?.big ? parseInline(children) : [children].flat()))
-    for (const attr in attrs) {
-      newElement.setAttribute(attr, attrs[attr])
-    }
     return newElement
   }
 
